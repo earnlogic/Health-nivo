@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0f766e">
+  <meta name="description" content="Health Nivo — স্বাস্থ্য, খাবার ও wellness tracker">
+  <title>Health Nivo</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <noscript>
+    <div class="noscript">
+      Health Nivo ব্যবহার করতে JavaScript চালু করুন।
+    </div>
+  </noscript>
+
+  <div id="app">
+
+    <!-- ================= HEADER ================= -->
+    <header class="top-header">
+
+      <button
+        class="brand-button"
+        id="brandHomeBtn"
+        type="button"
+        aria-label="Health Nivo Home"
+      >
+        <span class="brand-icon" aria-hidden="true">HN</span>
+
+        <span class="brand-text">
+          <strong>Health Nivo</strong>
+          <small>স্বাস্থ্য • খাবার • ট্র্যাকার</small>
+        </span>
+      </button>
+
+      <div class="header-actions">
+
+        <button
+          id="headerNotificationBtn"
+          class="header-icon-button"
+          type="button"
+          aria-label="Notifications"
+          title="Notifications"
+        >
+          🔔
+          <span id="notificationBadge" class="notification-badge" hidden></span>
+        </button>
+
+        <button
+          id="headerProfileBtn"
+          class="header-icon-button"
+          type="button"
+          aria-label="Profile"
+          title="Profile"
+        >
+          👤
+        </button>
+
+      </div>
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+    <main
+      id="mainContent"
+      class="main-content"
+      tabindex="-1"
+    >
+
+      <div
+        id="globalStatus"
+        class="global-status"
+        role="status"
+        aria-live="polite"
+        hidden
+      ></div>
+
+      <div id="pageView"></div>
+
+    </main>
+
+
+    <!-- ================= BOTTOM NAV ================= -->
+    <nav
+      class="bottom-navigation"
+      aria-label="Main navigation"
+    >
+
+      <button
+        class="bottom-nav-item active"
+        type="button"
+        data-route="home"
+      >
+        <span aria-hidden="true">⌂</span>
+        <span>Home</span>
+      </button>
+
+      <button
+        class="bottom-nav-item"
+        type="button"
+        data-route="problems"
+      >
+        <span aria-hidden="true">✚</span>
+        <span>সমস্যা</span>
+      </button>
+
+      <button
+        class="bottom-nav-item"
+        type="button"
+        data-route="foods"
+      >
+        <span aria-hidden="true">🍎</span>
+        <span>খাবার</span>
+      </button>
+
+      <button
+        class="bottom-nav-item"
+        type="button"
+        data-route="tracker"
+      >
+        <span aria-hidden="true">▦</span>
+        <span>Tracker</span>
+      </button>
+
+      <button
+        class="bottom-nav-item"
+        type="button"
+        data-route="more"
+      >
+        <span aria-hidden="true">•••</span>
+        <span>More</span>
+      </button>
+
+    </nav>
+
+  </div>
+
+
+  <!-- ================= MODAL ROOT ================= -->
+  <div id="modalRoot"></div>
+
+
+  <!-- ================= TOAST ROOT ================= -->
+  <div
+    id="toastRoot"
+    class="toast-root"
+    aria-live="polite"
+    aria-atomic="true"
+  ></div>
+
+
+  <!-- ================= APP JS ================= -->
+  <script src="app.js"></script>
+
+</body>
+        </html>
