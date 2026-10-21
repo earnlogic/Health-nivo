@@ -379,6 +379,66 @@ async function loadJSON(path) {
 }
 
 
+/* ---------------------------------------------------------
+   FIELD NAME NORMALIZATION
+   JSON files keep their original field names. The app reads
+   the shorter aliases below, which point to the same values.
+   --------------------------------------------------------- */
+
+function normalizeFood(food) {
+
+  return {
+
+    ...food,
+
+    serving:
+      food.serving ??
+      food.serving_size,
+
+    calories:
+      food.calories ??
+      food.calories_kcal,
+
+    protein:
+      food.protein ??
+      food.protein_g,
+
+    carbs:
+      food.carbs ??
+      food.carbs_g,
+
+    fat:
+      food.fat ??
+      food.fat_g,
+
+    fiber:
+      food.fiber ??
+      food.fiber_g
+
+  };
+
+}
+
+
+function normalizeProblem(problem) {
+
+  return {
+
+    ...problem,
+
+    actions:
+      problem.actions ??
+      problem.actions_and_food_guidance,
+
+    avoid:
+      problem.avoid ??
+      problem.avoid_or_limit
+
+  };
+
+}
+
+
 async function loadApplicationData() {
 
   APP.dataState = {
@@ -413,8 +473,12 @@ async function loadApplicationData() {
 
     APP.data = {
 
-      foods,
-      problems,
+      foods:
+        foods.map(normalizeFood),
+
+      problems:
+        problems.map(normalizeProblem),
+
       conditions
 
     };
@@ -617,7 +681,10 @@ function isFavorite(
 
   return (
     favorites[type] || []
-  ).includes(id);
+  ).some(
+    savedId =>
+      String(savedId) === String(id)
+  );
 
 }
 
@@ -637,7 +704,10 @@ function toggleFavorite(
   }
 
   const index =
-    favorites[type].indexOf(id);
+    favorites[type].findIndex(
+      savedId =>
+        String(savedId) === String(id)
+    );
 
   if (index >= 0) {
 
@@ -665,7 +735,60 @@ function toggleFavorite(
     favorites
   );
 
-  render();
+  /* Update the star buttons in place so an open detail page
+     stays open. Fall back to a full render only if no matching
+     button is on screen. */
+
+  const isNowFavorite =
+    index < 0;
+
+  const matchingButtons =
+    Array.from(
+      document.querySelectorAll(
+        "[data-favorite]"
+      )
+    ).filter(
+      button =>
+        button.dataset.favorite ===
+        `${type}:${id}`
+    );
+
+  if (matchingButtons.length) {
+
+    matchingButtons.forEach(button => {
+
+      button.classList.toggle(
+        "favorite-on",
+        isNowFavorite
+      );
+
+      button.textContent =
+        isNowFavorite
+          ? "★"
+          : "☆";
+
+      if (
+        button.hasAttribute(
+          "aria-label"
+        )
+      ) {
+
+        button.setAttribute(
+          "aria-label",
+          isNowFavorite
+            ? "Favorite সরান"
+            : "Favorite করুন"
+        );
+
+      }
+
+    });
+
+  } else {
+
+    render();
+
+  }
 
 }
 
@@ -1508,9 +1631,19 @@ function renderProblemDetail(id) {
       problem.id
     );
 
-  const relatedFoods =
+  const recommendedFoods =
     getFoodsByIds(
-      problem.related_food_ids || []
+      problem.recommended_food_ids || []
+    );
+
+  const moderateFoods =
+    getFoodsByIds(
+      problem.moderate_food_ids || []
+    );
+
+  const limitedFoods =
+    getFoodsByIds(
+      problem.limit_or_avoid_food_ids || []
     );
 
   return `
@@ -1572,22 +1705,20 @@ function renderProblemDetail(id) {
       )}
 
 
-      ${
-        relatedFoods.length
+      ${foodGroupBlock(
+        "🟢 খাওয়া ভালো",
+        recommendedFoods
+      )}
 
-          ? detailBlock(
-              "সম্পর্কিত খাবার",
-              relatedFoods
-                .map(
-                  food =>
-                    `${escapeHTML(food.name_bn)}
-                     (${escapeHTML(food.name_en || "")})`
-                )
-                .join("<br>")
-            )
+      ${foodGroupBlock(
+        "🟡 পরিমিত খাওয়া",
+        moderateFoods
+      )}
 
-          : ""
-      }
+      ${foodGroupBlock(
+        "🔴 সীমিত বা এড়িয়ে চলুন",
+        limitedFoods
+      )}
 
 
       <div class="disclaimer">
@@ -1646,6 +1777,54 @@ function detailBlock(
 
       <p>
         ${safeValue}
+      </p>
+
+    </div>
+
+  `;
+
+}
+
+
+/* Renders one food group (title + food names) as safe HTML.
+   Every dynamic value is escaped here; the <br> separators are
+   added by this function, so detailBlock() is not used for it. */
+
+function foodGroupBlock(
+  title,
+  foods
+) {
+
+  if (!foods.length) {
+
+    return "";
+
+  }
+
+  const lines =
+    foods
+      .map(food => {
+
+        const english =
+          food.name_en
+            ? ` (${escapeHTML(food.name_en)})`
+            : "";
+
+        return `${escapeHTML(food.name_bn)}${english}`;
+
+      })
+      .join("<br>");
+
+  return `
+
+    <div class="detail-section">
+
+      <h3>
+        ${escapeHTML(title)}
+      </h3>
+
+      <p>
+        ${lines}
       </p>
 
     </div>
