@@ -1201,3 +1201,218 @@ td {
       0;
   }
   }
+
+
+/* =========================================================
+   EXTENSION MODULES (conditions, nutrition, BMI and others)
+   Additive styles only; existing rules above are unchanged.
+   ========================================================= */
+
+.ext-row {
+  width: 100%;
+
+  margin-bottom: 8px;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.ext-row .small {
+  display: block;
+}
+
+.ext-details {
+  margin-top: 12px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 13px;
+
+  background: var(--surface);
+}
+
+.ext-details summary {
+  padding: 12px 14px;
+
+  font-weight: 750;
+
+  cursor: pointer;
+}
+
+.ext-details-body {
+  padding: 0 14px 12px;
+}
+
+.ext-list {
+  margin: 0;
+
+  padding-left: 20px;
+}
+
+.ext-list li {
+  margin: 3px 0;
+}
+
+.ext-stat-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 10px;
+
+  margin: 12px 0;
+}
+
+.ext-stat {
+  padding: 10px 12px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 13px;
+
+  background: var(--surface);
+}
+
+.ext-stat strong {
+  display: block;
+
+  font-size: 1.15rem;
+}
+
+.ext-chips {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 6px;
+
+  margin: 8px 0;
+}
+
+.ext-chip {
+  min-height: 36px;
+
+  padding: 6px 12px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 999px;
+
+  background: var(--surface);
+
+  font-size: 0.85rem;
+
+  cursor: pointer;
+}
+
+.ext-chip[aria-pressed="true"] {
+  border-color: var(--brand);
+
+  background: var(--brand-light);
+
+  color: var(--brand-dark);
+
+  font-weight: 750;
+}
+
+.ext-inline-actions {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-top: 8px;
+}
+
+.ext-btn-small {
+  min-height: 34px;
+
+  padding: 6px 10px;
+
+  font-size: 0.8rem;
+}
+
+.ext-warn {
+  padding: 12px 14px;
+
+  border-left: 4px solid var(--warning);
+
+  border-radius: 10px;
+
+  background: var(--warning-light);
+
+  font-size: 0.85rem;
+}
+
+.ext-calendar {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  gap: 4px;
+
+  margin: 10px 0;
+}
+
+.ext-cal-day {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  aspect-ratio: 1;
+
+  border: 1px solid var(--border);
+
+  border-radius: 8px;
+
+  background: var(--surface);
+
+  font-size: 0.75rem;
+}
+
+.ext-cal-day.on {
+  border-color: var(--brand);
+
+  background: var(--brand);
+
+  color: white;
+}
+
+.ext-cal-day.off {
+  border: none;
+
+  background: transparent;
+}
+
+.ext-cal-day.today {
+  outline: 2px solid var(--accent);
+}
+
+.ext-cal-head {
+  text-align: center;
+
+  font-size: 0.7rem;
+
+  color: var(--muted);
+}
+
+.ext-progress {
+  height: 8px;
+
+  border-radius: 999px;
+
+  background: #eef2f6;
+
+  overflow: hidden;
+}
+
+.ext-progress > span {
+  display: block;
+
+  height: 100%;
+
+  background: var(--brand);
+}
