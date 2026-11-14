@@ -2371,6 +2371,13 @@ const TRACKERS = [
     "🍽️",
     "Nutrition Log",
     "খাবার ও ক্যালরি"
+  ],
+
+  [
+    "conditions",
+    "🩺",
+    "Conditions Guide",
+    "অবস্থা ও খাবারের গাইড"
   ]
 
 ];
@@ -2544,13 +2551,6 @@ function renderMore() {
       "👤",
       "Profile",
       "ব্যক্তিগত তথ্য"
-    ],
-
-    [
-      "conditions",
-      "🩺",
-      "Conditions Guide",
-      "অবস্থা ও খাবারের গাইড"
     ],
 
     [
