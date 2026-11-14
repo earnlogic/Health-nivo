@@ -1416,3 +1416,25 @@ td {
 
   background: var(--brand);
 }
+
+/* ================= SENSOR TOOLS (camera HR, activity, pulse zone) ================= */
+
+.pulse-zone-card.active {
+  border-color: var(--brand);
+
+  background: var(--brand-light);
+
+  box-shadow: 0 0 0 2px var(--brand);
+}
+
+.ext-chip[disabled] {
+  opacity: 0.55;
+
+  cursor: not-allowed;
+}
+
+.ext-stat small {
+  display: block;
+
+  color: var(--muted);
+}

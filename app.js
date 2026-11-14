@@ -81,7 +81,11 @@ const APP = {
 
     notifications: "healthnivo_notifications",
 
-    foodLog: "healthnivo_food_log"
+    foodLog: "healthnivo_food_log",
+
+    activity: "healthnivo_activity_sessions",
+
+    pulseSessions: "healthnivo_pulse_sessions"
 
   }
 
@@ -2388,7 +2392,7 @@ const EXPERIMENTAL_TOOLS = [
   [
     "motionSteps",
     "📱",
-    "Motion Step Counter",
+    "Activity Tracker",
     "Beta"
   ],
 
