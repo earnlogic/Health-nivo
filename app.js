@@ -79,7 +79,9 @@ const APP = {
 
     settings: "healthnivo_settings",
 
-    notifications: "healthnivo_notifications"
+    notifications: "healthnivo_notifications",
+
+    foodLog: "healthnivo_food_log"
 
   }
 
@@ -128,11 +130,23 @@ function escapeHTML(value) {
    DATE HELPERS
    ========================================================= */
 
+/* Local calendar date as YYYY-MM-DD. toISOString() would give the
+   UTC date, which is the previous day for part of the day in
+   time zones ahead of UTC (for example Bangladesh, UTC+6). */
+
+function localISODate(date = new Date()) {
+
+  const pad = number =>
+    String(number).padStart(2, "0");
+
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+
+}
+
+
 function todayISO() {
 
-  return new Date()
-    .toISOString()
-    .slice(0, 10);
+  return localISODate();
 
 }
 
@@ -2350,6 +2364,13 @@ const TRACKERS = [
     "🗓",
     "Pregnancy & Period",
     "পিরিয়ড"
+  ],
+
+  [
+    "nutrition",
+    "🍽️",
+    "Nutrition Log",
+    "খাবার ও ক্যালরি"
   ]
 
 ];
@@ -2523,6 +2544,13 @@ function renderMore() {
       "👤",
       "Profile",
       "ব্যক্তিগত তথ্য"
+    ],
+
+    [
+      "conditions",
+      "🩺",
+      "Conditions Guide",
+      "অবস্থা ও খাবারের গাইড"
     ],
 
     [
@@ -4233,8 +4261,7 @@ function getLast30DaysCount(
   );
 
   const startDate =
-    start.toISOString()
-      .slice(0, 10);
+    localISODate(start);
 
 
   return records.filter(
@@ -4328,8 +4355,7 @@ function calculateStreak() {
 
   while (
     activeDates.has(
-      cursor.toISOString()
-        .slice(0, 10)
+      localISODate(cursor)
     )
   ) {
 
@@ -6445,6 +6471,17 @@ function resetAllData() {
 function openTracker(
   tracker
 ) {
+
+  /* Modules registered in ext.js (HN_EXT.tool) take priority. */
+
+  if (
+    typeof HN_EXT !== "undefined" &&
+    HN_EXT.openTool(tracker)
+  ) {
+
+    return;
+
+  }
 
   switch (tracker) {
 
